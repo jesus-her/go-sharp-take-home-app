@@ -1,34 +1,35 @@
-import React from 'react'
-import {View, Text, TouchableOpacity} from 'react-native'
-import {useSelector, useDispatch} from 'react-redux'
-import {selectCurrentUser} from '../redux/slices/auth.slice'
+import React, {useEffect} from 'react'
 import {AppDispatch} from '@/redux/store'
-import {signOutThunk} from '../redux/thunks/auth.thunks'
+import {View, Text, ActivityIndicator, FlatList} from 'react-native'
+import {useDispatch, useSelector} from 'react-redux'
+import {selectAllProducts, selectLoading} from '../redux/slices/product.slice'
+import {fetchProductsThunk} from '../redux/thunks/product.thunks'
 
-const DashboardScreen = () => {
+const DashboardProducts = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const currentUser = useSelector(selectCurrentUser)
+  const products = useSelector(selectAllProducts)
+  const loading = useSelector(selectLoading)
+
+  useEffect(() => {
+    dispatch(fetchProductsThunk())
+  }, [dispatch])
+
+  if (loading) {
+    return <ActivityIndicator />
+  }
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-      }}>
-      <Text>Welcome to Dashboard, {currentUser?.email}</Text>
-      <TouchableOpacity
-        style={{
-          backgroundColor: 'red',
-          paddingHorizontal: 50,
-          paddingVertical: 15,
-          margin: 10,
-        }}
-        onPress={() => dispatch(signOutThunk())}>
-        <Text style={{color: 'white'}}>Sign out</Text>
-      </TouchableOpacity>
-    </View>
+    <FlatList
+      data={products}
+      keyExtractor={item => item.name}
+      renderItem={({item}) => (
+        <View>
+          <Text>{item.name}</Text>
+          {/* ... otros detalles del producto */}
+        </View>
+      )}
+    />
   )
 }
 
-export default DashboardScreen
+export default DashboardProducts

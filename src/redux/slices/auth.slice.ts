@@ -60,6 +60,8 @@ const authSlice = createSlice({
       .addCase(signInThunk.rejected, (state, action) => {
         return (state = {
           ...initialState,
+          isLoggedIn: false,
+          success: false,
           error: action.payload,
         })
       })

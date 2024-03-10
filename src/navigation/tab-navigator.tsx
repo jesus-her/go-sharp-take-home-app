@@ -5,7 +5,8 @@ import HeaderBar from '../components/header-bar'
 
 import HomeScreen from '../screens/home-screen'
 import DashboardScreen from '../screens/DashboardScreen'
-import AccountScreen from '../screens/AccountScreen'
+import AccountScreen from '../screens/account-screen'
+import {HStack, Icon, createIcon} from '@gluestack-ui/themed'
 
 const Tab = createBottomTabNavigator()
 
@@ -26,15 +27,6 @@ const TabNavigator = () => {
         component={HomeScreen}
         options={{
           headerTitle: () => <HeaderBar title='Home' />,
-          //   tabBarIcon: ({ focused}: {focused: boolean}) => (
-          //     <MaterialIcons
-          //       name='home'
-          //       size={28}
-          //       color={
-          //         focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex
-          //       }
-          //     />
-          //   )
         }}
       />
       <Tab.Screen

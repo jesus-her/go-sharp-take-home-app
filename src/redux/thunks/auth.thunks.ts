@@ -2,6 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit'
 import {signInWithEmailAndPassword} from 'firebase/auth'
 import {FIREBASE_AUTH} from '../../../firebase.config'
 
+
 // Sign In
 export const signInThunk = createAsyncThunk(
   'userAuth/signIn',
@@ -30,7 +31,8 @@ export const signInThunk = createAsyncThunk(
         },
       }
     } catch (error) {
-      return rejectWithValue(error)
+
+      return rejectWithValue('Invalid credentials.')
     }
   },
 )

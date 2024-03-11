@@ -1,6 +1,6 @@
 import type { IProduct } from '../../types/product.types';
 import { createSlice } from '@reduxjs/toolkit';
-import { createProductThunk, fetchProductsThunk } from '../thunks/product.thunks';
+import { createProductThunk, deleteProductThunk, fetchProductsThunk } from '../thunks/product.thunks';
 
 
 interface IProductState {
@@ -49,6 +49,20 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       });
+       // delete Product
+    builder
+    .addCase(deleteProductThunk.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(deleteProductThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      // Eliminar el producto por id del array de productos
+      state.products = state.products.filter((product) => product.id !== action.payload);
+    })
+    .addCase(deleteProductThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
 
     // Other cases for update, delete, and fetch operations
   },

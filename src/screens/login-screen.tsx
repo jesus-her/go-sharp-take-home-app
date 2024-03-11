@@ -11,9 +11,16 @@ const LoginScreen = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{flexGrow: 1}}>
           <Card size='lg' variant='elevated' m='$3'>
-            <VStack mb='$4'>
-              <Heading size='lg'>Login</Heading>
-              <Text size='sm'>Start building your next project in minutes</Text>
+            <Heading size='lg'>Login</Heading>
+            <VStack mb='$4' gap={4} mt={4}>
+              <Text size='sm'>
+                Llena el formulario con tus credenciales e inicia sesión en la
+                app.
+              </Text>
+              <Box>
+                <Text size='sm'>email: jesus10.hn@gmail.com</Text>
+                <Text size='sm'>password: password1234</Text>
+              </Box>
             </VStack>
             <LoginForm />
           </Card>

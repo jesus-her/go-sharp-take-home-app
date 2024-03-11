@@ -20,13 +20,13 @@ const HomeScreen = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{flexGrow: 1}}>
           <VStack>
-            <Box mb={24}>
-              <Heading>¡Pon algo a la venta!</Heading>
-              <Text>
-                Llena el formulario de abajo para publicar un producto.
-              </Text>
-            </Box>
             <Card>
+              <Box mb={24}>
+                <Heading>¡Pon algo a la venta!</Heading>
+                <Text>
+                  Llena el formulario de abajo para publicar un producto.
+                </Text>
+              </Box>
               <AddProductForm />
             </Card>
           </VStack>

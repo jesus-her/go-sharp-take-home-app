@@ -10,14 +10,16 @@ import {
   EyeIcon,
   EyeOffIcon,
   Text,
+  ButtonSpinner,
 } from '@gluestack-ui/themed'
 import FormInputUi from '../ui/form-input-ui'
 import {signInThunk} from '../../redux/thunks/auth.thunks'
-import {selectError} from '../../redux/slices/auth.slice'
+import {selectError, selectLoading} from '../../redux/slices/auth.slice'
 
 const LoginForm = () => {
   const dispatch = useDispatch<AppDispatch>()
   const error = useSelector(selectError)
+  const isLoading = useSelector(selectLoading)
 
   const [formData, setFormData] = useState({
     email: 'jesus10.hn@gmail.com',
@@ -48,6 +50,7 @@ const LoginForm = () => {
     <VStack>
       <FormInputUi
         label='Email'
+        maxLength={30}
         type='text'
         placeholder='Enter your email'
         value={formData.email}
@@ -55,6 +58,7 @@ const LoginForm = () => {
       />
       <FormInputUi
         label='Password'
+        maxLength={16}
         type={showPassword ? 'text' : 'password'}
         placeholder='Enter your password'
         value={formData.password}
@@ -77,10 +81,11 @@ const LoginForm = () => {
         size='md'
         variant='solid'
         action='primary'
-        isDisabled={false}
+        isDisabled={isLoading}
         isFocusVisible={false}
         onPress={handleLogin}>
-        <ButtonText>Login</ButtonText>
+        {isLoading && <ButtonSpinner mr='$1' />}
+        <ButtonText> {isLoading ? 'Loading...' : 'Login'}</ButtonText>
       </Button>
     </VStack>
   )

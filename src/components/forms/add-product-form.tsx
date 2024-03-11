@@ -5,30 +5,15 @@ import {
   VStack,
   Button,
   ButtonText,
-  InputSlot,
-  InputIcon,
-  EyeIcon,
-  EyeOffIcon,
-  Text,
-  ChevronDownIcon,
-  Icon,
-  Select,
-  SelectBackdrop,
-  SelectContent,
-  SelectDragIndicator,
-  SelectDragIndicatorWrapper,
-  SelectIcon,
-  SelectInput,
   SelectItem,
-  SelectPortal,
-  SelectTrigger,
-  KeyboardAvoidingView,
+  ButtonSpinner,
 } from '@gluestack-ui/themed'
 import FormInputUi from '../ui/form-input-ui'
 
 import {createProductThunk} from '../../redux/thunks/product.thunks'
 import {Alert} from 'react-native'
 import FormSelectUi from '../ui/form-select-ui'
+import {selectLoading} from '../../redux/slices/product.slice'
 
 const AddProductForm = () => {
   const [productData, setProductData] = useState({
@@ -39,6 +24,7 @@ const AddProductForm = () => {
   })
 
   const dispatch = useDispatch<AppDispatch>()
+  const isLoading = useSelector(selectLoading)
 
   const handleChange = (name: string, value: string) => {
     setProductData(prevData => ({
@@ -73,12 +59,18 @@ const AddProductForm = () => {
     )
 
     // Resetear el formulario
-    setProductData({name: '', description: '', category: '', price: ''})
+    setProductData({
+      name: '',
+      description: '',
+      category: productData.category,
+      price: '',
+    })
   }
 
   return (
-    <VStack>
+    <VStack flex={1}>
       <FormInputUi
+        maxLength={25}
         isRequired
         label='Product Name'
         type='text'
@@ -88,6 +80,7 @@ const AddProductForm = () => {
       />
 
       <FormInputUi
+        maxLength={70}
         isRequired
         label='Product Description'
         type='text'
@@ -111,6 +104,7 @@ const AddProductForm = () => {
       />
 
       <FormInputUi
+        maxLength={5}
         isRequired
         keyboardType='numeric'
         label='Price'
@@ -124,10 +118,12 @@ const AddProductForm = () => {
         size='md'
         variant='solid'
         action='primary'
-        isDisabled={validAllFields}
-        isFocusVisible={false}
+        isDisabled={validAllFields || isLoading}
         onPress={handleSubmit}>
-        <ButtonText>Add Product</ButtonText>
+        {isLoading && <ButtonSpinner mr='$1' />}
+        <ButtonText>
+          {isLoading ? 'Creating product...' : 'Add Product'}
+        </ButtonText>
       </Button>
     </VStack>
   )

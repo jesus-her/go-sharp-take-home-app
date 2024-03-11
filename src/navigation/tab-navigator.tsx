@@ -4,11 +4,23 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import HeaderBar from '../components/header-bar'
 
 import HomeScreen from '../screens/home-screen'
-import DashboardScreen from '../screens/DashboardScreen'
+import ProductsScreen from '../screens/products-screen'
 import AccountScreen from '../screens/account-screen'
-import {HStack, Icon, createIcon} from '@gluestack-ui/themed'
 
-const Tab = createBottomTabNavigator()
+import {
+  Icon,
+  GripVerticalIcon,
+  SettingsIcon,
+  EditIcon,
+} from '@gluestack-ui/themed'
+
+export type RootTabParamList = {
+  Home: undefined
+  Products: undefined
+  Account: undefined
+}
+
+const Tab = createBottomTabNavigator<RootTabParamList>()
 
 const TabNavigator = () => {
   return (
@@ -18,31 +30,33 @@ const TabNavigator = () => {
         headerShown: true,
         tabBarShowLabel: false,
         tabBarStyle: styles.tabBarStyle,
-        // tabBarBackground: () => (
-        //   <BlurView intensity={50} style={styles.BlurViewStyles} />
-        // )
       }}>
       <Tab.Screen
         name='Home'
         component={HomeScreen}
         options={{
-          headerTitle: () => <HeaderBar title='Home' />,
+          headerTitle: () => <HeaderBar title='Inicio' />,
+          tabBarIcon: ({focused}: {focused: boolean}) => (
+            <Icon
+              size='lg'
+              as={EditIcon}
+              color={focused ? '$blue600' : '$textLight500'}
+            />
+          ),
         }}
       />
       <Tab.Screen
-        name='Dashboard'
-        component={DashboardScreen}
+        name='Products'
+        component={ProductsScreen}
         options={{
-          headerTitle: () => <HeaderBar title='Dashboard' />,
-          //   tabBarIcon: ({ focused}: {focused: boolean}) => (
-          //     <Ionicons
-          //       name='cart-sharp'
-          //       size={26}
-          //       color={
-          //         focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex
-          //       }
-          //     />
-          //   )
+          headerTitle: () => <HeaderBar title='Productos' />,
+          tabBarIcon: ({focused}: {focused: boolean}) => (
+            <Icon
+              as={GripVerticalIcon}
+              size='lg'
+              color={focused ? '$blue600' : '$textLight500'}
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -50,15 +64,13 @@ const TabNavigator = () => {
         component={AccountScreen}
         options={{
           headerTitle: () => <HeaderBar title='Account' />,
-          //   tabBarIcon: ({ focused}: {focused: boolean}) => (
-          //     <FontAwesome
-          //       name='user'
-          //       size={26}
-          //       color={
-          //         focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex
-          //       }
-          //     />
-          //   )
+          tabBarIcon: ({focused}: {focused: boolean}) => (
+            <Icon
+              as={SettingsIcon}
+              size='lg'
+              color={focused ? '$blue600' : '$textLight500'}
+            />
+          ),
         }}
       />
     </Tab.Navigator>
@@ -67,17 +79,9 @@ const TabNavigator = () => {
 
 const styles = StyleSheet.create({
   tabBarStyle: {
-    height: 80,
+    height: 70,
+    backgroundColor: 'rgba(255, 255, 255,1)',
     position: 'absolute',
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    elevation: 1,
-  },
-  BlurViewStyles: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
   },
 })
 

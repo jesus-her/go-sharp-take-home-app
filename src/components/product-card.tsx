@@ -1,42 +1,102 @@
 import React from 'react'
-import {VStack, Heading, Text, Card} from '@gluestack-ui/themed'
+import {
+  VStack,
+  Heading,
+  Text,
+  Card,
+  Image,
+  HStack,
+  Box,
+  Icon,
+  ArrowRightIcon,
+  ButtonIcon,
+  Button,
+  TrashIcon,
+  ButtonText,
+} from '@gluestack-ui/themed'
 import type {IProduct} from '../types/product.types'
+import type {AppDispatch} from '../redux/store'
+import {useDispatch} from 'react-redux'
+import {deleteProductThunk} from '../redux/thunks/product.thunks'
 
 const ProductCard = ({product}: {product: IProduct}) => {
+  const dispatch = useDispatch<AppDispatch>()
+
+  const handleDeleteProduct = () => {
+    dispatch(deleteProductThunk(product.id))
+  }
   return (
-    <Card p='$5' borderRadius='$lg'>
-      {/* <Image
-        mb="$6"
-        h={240}
-        width="$full"
-        borderRadius="$md"
-        source={{
-          uri: "https://images.unsplash.com/photo-1595231712325-9fedecef7575?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fHw%3D",
-        }}
-      /> */}
-      <Text
-        fontSize='$sm'
-        fontStyle='normal'
-        fontFamily='$heading'
-        fontWeight='$normal'
-        lineHeight='$sm'
-        mb='$2'
-        sx={{
-          color: '$textLight700',
-          _dark: {
-            color: '$textDark200',
-          },
-        }}>
-        {product.category}
-      </Text>
-      <VStack mb='$6'>
-        <Heading size='md' fontFamily='$heading' mb='$4'>
-          {product.name}
-        </Heading>
-        <Text size='sm' fontFamily='$heading'>
-          {product.description}
-        </Text>
-      </VStack>
+    <Card p='$5' borderRadius='$lg' position='relative' gap={12}>
+      <HStack gap={12}>
+        <Image
+          h={120}
+          w={120}
+          aspectRatio={1}
+          borderRadius={12}
+          bg='#03017C'
+          alt='Product Image'
+          source={require('../assets/shoes-1.webp')}
+        />
+
+        <VStack flex={1}>
+          <Heading size='md' textTransform='capitalize' numberOfLines={1}>
+            {product.name}
+          </Heading>
+          <Text
+            bg={'#F5A524' + 50}
+            color='#F5A524'
+            px={6}
+            py={1}
+            mt={4}
+            alignSelf='flex-start'
+            rounded={'$full'}
+            fontWeight='$semibold'
+            fontSize='$sm'
+            mb='$2'>
+            {product.category}
+          </Text>
+
+          <Box flexDirection='row'>
+            <Text flexShrink={1} size='sm' opacity={0.7} numberOfLines={2}>
+              {product.description}
+            </Text>
+          </Box>
+          <HStack
+            flex={1}
+            justifyContent='space-between'
+            alignItems='center'
+            mt={6}>
+            <Text
+              color='#16B55A'
+              px={6}
+              py={1}
+              mt={4}
+              alignSelf='flex-start'
+              rounded={'$full'}
+              fontWeight='$bold'
+              fontSize='$md'
+              mb='$2'>
+              ${product.price}
+            </Text>
+            <Icon as={ArrowRightIcon} />
+          </HStack>
+        </VStack>
+      </HStack>
+      <Button
+        onPress={handleDeleteProduct}
+        action='negative'
+        variant='outline'
+        borderRadius='$full'
+        size='xs'>
+        <ButtonIcon as={TrashIcon} color='$red600' size='sm' />
+        <ButtonText
+          ml={4}
+          fontWeight='$medium'
+          fontSize='$sm'
+          $dark-color='$textDark300'>
+          Eliminar Producto
+        </ButtonText>
+      </Button>
     </Card>
   )
 }

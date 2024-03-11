@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {AppDispatch} from '@/redux/store'
-import {FlatList} from 'react-native'
+import {FlatList, RefreshControl} from 'react-native'
 import {useDispatch, useSelector} from 'react-redux'
 import {selectAllProducts, selectLoading} from '../redux/slices/product.slice'
 import {fetchProductsThunk} from '../redux/thunks/product.thunks'
@@ -12,10 +12,19 @@ const ProductsScreen = () => {
   const dispatch = useDispatch<AppDispatch>()
   const products = useSelector(selectAllProducts)
   const loading = useSelector(selectLoading)
+  const [refreshing, setRefreshing] = useState(false)
 
   useEffect(() => {
     dispatch(fetchProductsThunk())
   }, [dispatch])
+
+  const onRefresh = () => {
+    setRefreshing(true)
+    dispatch(fetchProductsThunk())
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 1000) // Refresh indicator will be visible for at least 1 second
+  }
 
   if (loading) {
     return (
@@ -31,6 +40,9 @@ const ProductsScreen = () => {
   return (
     <FlatList
       data={products}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
       ListEmptyComponent={<EmptyProducts />}
       contentContainerStyle={{
         paddingBottom: 100,

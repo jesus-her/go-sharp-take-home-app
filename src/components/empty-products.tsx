@@ -12,7 +12,6 @@ import React from 'react'
 import {View} from 'react-native'
 
 const EmptyProducts = () => {
-  // Use the hook and tell TypeScript the type of the navigator's param list.
   const navigation = useNavigation<NavigationProp<RootTabParamList>>()
   return (
     <View

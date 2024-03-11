@@ -10,19 +10,19 @@ const LoginScreen = () => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{flexGrow: 1}}>
-          <Card size='lg' variant='elevated' m='$3'>
-            <Heading size='lg'>Login</Heading>
-            <VStack mb='$4' gap={4} mt={4}>
+          <Card size='lg' variant='elevated' m='$3' gap={16}>
+            <Box>
+              <Heading size='lg'>Login</Heading>
               <Text size='sm'>
                 Llena el formulario con tus credenciales e inicia sesión en la
                 app.
               </Text>
-              <Box>
-                <Text size='sm'>email: jesus10.hn@gmail.com</Text>
-                <Text size='sm'>password: password1234</Text>
-              </Box>
-            </VStack>
+            </Box>
             <LoginForm />
+            <VStack>
+              <Text size='sm'>email: jesus10.hn@gmail.com</Text>
+              <Text size='sm'>password: password1234</Text>
+            </VStack>
           </Card>
         </ScrollView>
       </KeyboardAvoidingView>
